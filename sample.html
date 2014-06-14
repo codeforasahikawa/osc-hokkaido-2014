@@ -1,0 +1,35 @@
+<html>
+
+<head>
+<link rel="stylesheet" href="http://leafletjs.com/dist/leaflet.css" />
+
+<script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+<style type="text/css">
+.bg {
+  background-image: url("./t-shirt.jpg");
+  background-repeat: "no-repert";
+  width: 1000px;
+  height: 1000px;
+}
+.map {
+	
+}
+</style>
+</head>
+<body>
+
+<div id="tshirt" class="bg">
+<div id="map" style="position: absolute; top: 200px; left: 250px; width: 300px; height: 300px;"></div>
+</div>
+
+<script>
+var OsmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    OsmAttr = 'map data &copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+    Osm = L.tileLayer(OsmUrl, {maxZoom: 10, attribution: OsmAttr}),
+    latlng = L.latLng(43.0530, 141.3705);
+
+var map = L.map('map', {center: latlng, zoom: 15, layers: [Osm]});
+
+</script>
+</body>
+</html>
