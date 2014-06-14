@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="vendor/leaflet/leaflet.css" />
+  <link rel="stylesheet" type="text/css" href="vendor/select2/select2.css">
+  <script src="vendor/leaflet/leaflet.js"></script>
+  <script src="vendor/jquery.js"></script>
+  <script src="vendor/select2/select2.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+  #map {
+    width: 800px; 
+    height: 600px; 
+    border: 1px solid #ccc;
+  }
+  </style>
+</head>
+<body>
+  <main>
+    <select id="map-styles">
+      <option value="default">OpenStreetMap</option>
+      <option value="watercolor">WaterColor</option>
+      <option value="terrain">Terrain</optgroup>
+    </select>
+    <div id="map"></div>
+  </main>
+<script type="text/javascript">
+var osmUrl = 'http://tile.stamen.com/watercolor/{z}/{x}/{y}.jpg',//'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+  osmAttrib = '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+  osm = L.tileLayer(osmUrl, {maxZoom: 18, attribution: osmAttrib});
+
+var styles = {
+  'default': {
+    url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+  },
+  watercolor: {
+    url: 'http://tile.stamen.com/watercolor/{z}/{x}/{y}.jpg'
+  },
+  terrain: {
+    url: 'http://c.tile.stamen.com/terrain/{z}/{x}/{y}.jpg'
+  },
+};
+
+// TODO attributionn
+Object.keys(styles).forEach(function(key) {
+  styles[key].layer = L.tileLayer(styles[key].url, {
+    maxZoom: 18,
+    attribution: osmAttrib
+  });
+});
+
+var map = L.map('map').setView([43.7667, 142.366], 15);
+
+var currentStyle = 'watercolor';
+
+$("#map-styles").select2().on('change', function(e) {
+  console.dir(e);
+  var val = e.val;
+  console.log('val: ', val);
+  var config = styles[val];
+  console.dir(config);
+  map.removeLayer(styles[currentStyle].layer);
+  map.addLayer(config.layer);
+  currentStyle = val;
+  console.log('currentStyle:', currentStyle);
+});
+
+$('#map-styles').select2('val', currentStyle, true);
+
+</script>
+</body>
+</html>
